@@ -1,5 +1,7 @@
 # auth redirectable module for ember-auth
 
+[![Build Status](https://secure.travis-ci.org/heartsentwined/ember-auth-module-auth-redirectable.png)](http://travis-ci.org/heartsentwined/ember-auth-module-auth-redirectable)
+
 Redirect for protected routes without a signed in session.
 
 ## Config
