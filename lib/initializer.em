@@ -6,3 +6,4 @@ Em.onLoad 'Ember.Application', (application) ->
     initialize: (container, app) ->
       app.register 'authModule:authRedirectable', \
       Em.Auth.AuthRedirectableAuthModule
+      app.inject 'authModule:authRedirectable', 'auth', 'auth:main'
