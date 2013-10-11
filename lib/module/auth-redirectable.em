@@ -1,11 +1,17 @@
 class Em.Auth.AuthRedirectableAuthModule
   init: ->
-    @config? || (@config = @auth.authRedirectable)
+    @auth._config 'authRedirectable', @_defaultConfig
+    @config? || (@config = @auth._config 'authRedirectable')
 
     # register an authAccess handler type
     @auth._handlers.authAccess = []
 
     @patch()
+
+  _defaultConfig:
+    # [string] route name to redirect to when accessing a protected route
+    #   without a signed in session
+    route: null
 
   patch: ->
     self = this
