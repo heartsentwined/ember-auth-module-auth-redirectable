@@ -39,3 +39,8 @@ App.FooRoute = Ember.Route.extend
     doSomething()
     @_super.apply(this, arguments) # already returns promise
 ```
+
+License
+=======
+
+MIT
