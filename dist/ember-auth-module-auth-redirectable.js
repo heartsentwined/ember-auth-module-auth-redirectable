@@ -32,29 +32,22 @@ set$(get$(Em, 'Auth'), 'AuthRedirectableAuthModule', Ember.Object.extend({
     self = this;
     return get$(Em, 'Route').reopen({
       beforeModel: function (queryParams, transition) {
-        var handler, promises, ret, this$, this$1;
-        ret = this._super.apply(this, arguments);
-        if (get$(get$(self, 'auth'), 'signedIn') || !get$(this, 'authRedirectable'))
-          return ret;
-        if (!(null != transition))
-          transition = queryParams;
-        promises = [];
-        for (var i$ = 0, length$ = get$(get$(get$(self, 'auth'), '_handlers'), 'authAccess').length; i$ < length$; ++i$) {
-          handler = get$(get$(get$(self, 'auth'), '_handlers'), 'authAccess')[i$];
-          promises.push(handler(transition));
-        }
-        if (typeof get$(ret, 'then') === 'function') {
-          return ret.then((this$ = this, function () {
-            var this$1;
-            return get$(Em, 'RSVP').all(promises).then((this$1 = this$, function () {
-              return this$1.transitionTo(get$(get$(self, 'config'), 'route'));
-            }));
-          }));
-        } else {
-          return get$(Em, 'RSVP').all(promises).then((this$1 = this, function () {
+        var this$;
+        return get$(self, 'auth')._ensurePromise(this._super.apply(this, arguments)).then((this$ = this, function () {
+          var handler, promises, this$1;
+          if (get$(get$(self, 'auth'), 'signedIn') || !get$(this$, 'authRedirectable'))
+            return;
+          if (!(null != transition))
+            transition = queryParams;
+          promises = [];
+          for (var i$ = 0, length$ = get$(get$(get$(self, 'auth'), '_handlers'), 'authAccess').length; i$ < length$; ++i$) {
+            handler = get$(get$(get$(self, 'auth'), '_handlers'), 'authAccess')[i$];
+            promises.push(handler(transition));
+          }
+          return get$(Em, 'RSVP').all(promises).then((this$1 = this$, function () {
             return this$1.transitionTo(get$(get$(self, 'config'), 'route'));
           }));
-        }
+        }));
       }
     });
   }
