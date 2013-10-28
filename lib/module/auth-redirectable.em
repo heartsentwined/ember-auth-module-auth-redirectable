@@ -18,12 +18,12 @@ class Em.Auth.AuthRedirectableAuthModule
     Em.Route.reopen
       beforeModel: (queryParams, transition) ->
         self.auth._ensurePromise(super.apply this, arguments).then =>
-          return if self.auth.signedIn || !@authRedirectable
+          return if @auth.signedIn || !@authRedirectable
 
           transition = queryParams unless transition?
 
           promises = []
-          for handler in self.auth._handlers.authAccess
+          for handler in @auth._handlers.authAccess
             promises.push handler(transition)
 
           Em.RSVP.all(promises).then => @transitionTo self.config.route
